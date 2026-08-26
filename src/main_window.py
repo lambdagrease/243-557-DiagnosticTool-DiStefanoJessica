@@ -22,7 +22,7 @@ class MainWindow(QWidget):
             35.0,
         )
 
-        self.title_label = QLabel("Logiciel de diagnostic - Marie Tremblay")
+        self.title_label = QLabel("Logiciel de diagnostic - Jessica Di Stefano")
         self.sensor_name_label = QLabel(
             f"Capteur : {self.sensor.name}"
         )
