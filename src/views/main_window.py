@@ -8,6 +8,7 @@ from PyQt6.QtWidgets import (
 
 from src.models.sensor import Sensor
 from src.models.actuator import Actuator
+from src.controllers.system_controller import SystemController
 
 
 class MainWindow(QWidget):
@@ -26,6 +27,10 @@ class MainWindow(QWidget):
         self.actuator = Actuator(
             "LED de diagnostic"
         )
+        self.controller = SystemController(
+            self.sensor,
+            self.actuator,
+        )
 
         self.title_label = QLabel("Logiciel de diagnostic - Jessica Di Stefano")
         self.sensor_name_label = QLabel(
@@ -36,11 +41,14 @@ class MainWindow(QWidget):
         self.actuator_name_label = QLabel(
             f"LED : {self.actuator.name}"
         )
+        self.system_state_label = QLabel("État : STOPPED")
 
         self.actuator_state_label = QLabel("State : OFF")
 
         self.read_button = QPushButton("Lire le capteur")
-        self.actuator_button = QPushButton("Changer l'état de LED")
+        self.start_button = QPushButton("Démarrer")
+        self.stop_button = QPushButton("Arrêter")
+        self.reset_button = QPushButton("Réinitialiser")
 
         capteur_group = QGroupBox("Capteur")
         capteur_layout = QVBoxLayout()
@@ -53,7 +61,11 @@ class MainWindow(QWidget):
         led_layout = QVBoxLayout()
         led_layout.addWidget(self.actuator_name_label)
         led_layout.addWidget(self.actuator_state_label)
-        led_layout.addWidget(self.actuator_button)
+        led_layout.addWidget(self.system_state_label)
+        led_layout.addWidget(self.start_button)
+        led_layout.addWidget(self.stop_button)
+        led_layout.addWidget(self.reset_button)
+        led_layout.addWidget(self.system_state_label)
         led_group.setLayout(led_layout)
 
         layout = QVBoxLayout()
@@ -64,7 +76,9 @@ class MainWindow(QWidget):
         self.setLayout(layout)
 
         self.read_button.clicked.connect(self.read_sensor)
-        self.actuator_button.clicked.connect(self.change_actuator_state)
+        self.start_button.clicked.connect(self.start_system)
+        self.stop_button.clicked.connect(self.stop_system)
+        self.reset_button.clicked.connect(self.reset_system)
 
     def read_sensor(self) -> None:
         value = self.sensor.read()
