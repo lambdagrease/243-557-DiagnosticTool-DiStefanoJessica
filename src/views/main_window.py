@@ -77,6 +77,6 @@ class MainWindow(QWidget):
         self.actuator.state_invert()
 
         if self.actuator.state:
-            self.actuator_state_label.setText("State: Actif")
+            self.actuator_state_label.setText("State : Actif")
         else:
             self.actuator_state_label.setText("State : Inactif")
