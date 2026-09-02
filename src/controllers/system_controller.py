@@ -27,8 +27,9 @@ class SystemController:
             self.state = SystemState.STOPPED
 
     def alarm_system(self) -> None:
-        if self.state == SystemState.RUNNING:
-            self.state = SystemState.ALARM
+        if self.sensor.read() > 80:
+            if self.state == SystemState.RUNNING:
+                self.state = SystemState.ALARM
 
     def reset_system(self) -> None:
         if self.state == SystemState.ALARM:
@@ -37,3 +38,4 @@ class SystemController:
     def get_state(self) -> SystemState:
         return self.state
 
+        
