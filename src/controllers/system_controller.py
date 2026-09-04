@@ -29,10 +29,12 @@ class SystemController:
     def alarm_system(self) -> None:
         if self.sensor.read() > 80:
             if self.state == SystemState.RUNNING:
+                self.actuator.state_on()
                 self.state = SystemState.ALARM
 
     def reset_system(self) -> None:
         if self.state == SystemState.ALARM:
+            self.actuator.state_off()
             self.state = SystemState.STOPPED
 
     def get_state(self) -> SystemState:

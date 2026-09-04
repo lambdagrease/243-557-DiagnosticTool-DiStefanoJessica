@@ -6,10 +6,14 @@ from PyQt6.QtWidgets import (
     QGroupBox,
 )
 
+# IMPORTS
+
 from src.models.sensor import Sensor
 from src.models.actuator import Actuator
 from src.controllers.system_controller import SystemController
+from src.controllers.system_controller import SystemState
 
+# MAIN WINDOW
 
 class MainWindow(QWidget):
     """Fenêtre principale du logiciel de diagnostic."""
@@ -22,10 +26,10 @@ class MainWindow(QWidget):
         self.sensor = Sensor(
             "Distance",
             "cm",
-            35.0,
+            81.0,
         )
         self.actuator = Actuator(
-            "LED de diagnostic"
+            "Diagnostics LED"
         )
         self.controller = SystemController(
             self.sensor,
@@ -36,21 +40,23 @@ class MainWindow(QWidget):
         self.sensor_name_label = QLabel(
             f"Capteur : {self.sensor.name}"
         )
-        self.sensor_value_label = QLabel("Valeur : ---")
+        self.sensor_value_label = QLabel("Value : ---")
 
         self.actuator_name_label = QLabel(
             f"LED : {self.actuator.name}"
         )
-        self.system_state_label = QLabel("État : STOPPED")
 
+        self.system_state_label = QLabel("System State : STOPPED")
         self.actuator_state_label = QLabel("State : OFF")
 
-        self.read_button = QPushButton("Lire le capteur")
-        self.start_button = QPushButton("Démarrer")
-        self.stop_button = QPushButton("Arrêter")
-        self.reset_button = QPushButton("Réinitialiser")
+        self.read_button = QPushButton("Read Sensor")
+        self.start_button = QPushButton("Start")
+        self.stop_button = QPushButton("Stop")
+        self.reset_button = QPushButton("Reset")
 
-        capteur_group = QGroupBox("Capteur")
+    # QAPPLICATION WINDOW LAYOUTS
+
+        capteur_group = QGroupBox("Sensor")
         capteur_layout = QVBoxLayout()
         capteur_layout.addWidget(self.sensor_name_label)
         capteur_layout.addWidget(self.sensor_value_label)
@@ -65,7 +71,6 @@ class MainWindow(QWidget):
         led_layout.addWidget(self.start_button)
         led_layout.addWidget(self.stop_button)
         led_layout.addWidget(self.reset_button)
-        led_layout.addWidget(self.system_state_label)
         led_group.setLayout(led_layout)
 
         layout = QVBoxLayout()
@@ -75,22 +80,51 @@ class MainWindow(QWidget):
 
         self.setLayout(layout)
 
+    # BUTTON CLICK UPDATES
+
         self.read_button.clicked.connect(self.read_sensor)
         self.start_button.clicked.connect(self.start_system)
         self.stop_button.clicked.connect(self.stop_system)
         self.reset_button.clicked.connect(self.reset_system)
 
+    # READ SENSOR 
+
     def read_sensor(self) -> None:
         value = self.sensor.read()
-        """Simule la lecture d'un capteur de température."""
         self.sensor_value_label.setText(
-            f"Valeur : {value} {self.sensor.unit}"
+            f"Value : {value} {self.sensor.unit}"
+        )
+        self.controller.alarm_system()
+        self.update_actuator_state_label()
+        self.update_system_state_label()
+
+    # UPDATE SYSTEM STATE LABEL METHODS
+
+    def update_actuator_state_label(self) -> None:
+        if self.actuator.state:
+            self.actuator_state_label.setText(
+                "State : ON")
+        else:
+                self.actuator_state_label.setText(
+                "State : OFF")  
+
+    def update_system_state_label(self) -> None:
+        self.system_state_label.setText(
+            f"System State : {self.controller.get_state().value}"
         )
 
-    def change_actuator_state(self) -> None:
-        self.actuator.state_invert()
+    # UPDATE SYSTEM STATE VIEW METHODS
 
-        if self.actuator.state:
-            self.actuator_state_label.setText("State : Actif")
-        else:
-            self.actuator_state_label.setText("State : Inactif")
+    def start_system(self) -> None:
+        self.controller.start_system()
+        self.update_system_state_label()    
+
+    def stop_system(self) -> None:
+        self.controller.stop_system()
+        self.update_system_state_label()
+
+    def reset_system(self) -> None:
+        self.controller.reset_system()
+        self.update_system_state_label()
+        self.update_actuator_state_label() 
+
