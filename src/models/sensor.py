@@ -1,17 +1,16 @@
+from src.hardware.simulation_hardware import SimulationHardware
+
 class Sensor:
     def __init__(
         self,
         name: str,
         unit: str,
-        value: float = 0.0,
+        hardware: SimulationHardware,   # "voici l'objet qui sait obtenir la valeur"
     ) -> None:
         self.name = name
         self.unit = unit
-        self.value = value
+        self.hardware = hardware
 
     def read(self) -> float:
-        return self.value
-
-    def set_value(self, value: float) -> None:
-        self.value = value
+        return self.hardware.read_sensor(self.name) # retour de la valeur
         

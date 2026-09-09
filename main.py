@@ -4,7 +4,6 @@ from PyQt6.QtWidgets import QApplication
 
 from src.views.main_window import MainWindow
 
-
 def main() -> None:
     """Démarre l'application de diagnostic."""
     app = QApplication(sys.argv)

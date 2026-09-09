@@ -12,6 +12,7 @@ from src.models.sensor import Sensor
 from src.models.actuator import Actuator
 from src.controllers.system_controller import SystemController
 from src.controllers.system_controller import SystemState
+from src.hardware.simulation_hardware import SimulationHardware
 
 # MAIN WINDOW
 
@@ -22,15 +23,22 @@ class MainWindow(QWidget):
         super().__init__()
 
         self.setWindowTitle("243-557 — DiagnosticTool")
+
         self.resize(360, 220)
+
+        self.hardware = SimulationHardware()
+
         self.sensor = Sensor(
             "Distance",
             "cm",
-            81.0,
+            self.hardware,
         )
+
         self.actuator = Actuator(
-            "Diagnostics LED"
+            "Diagnostics LED",
+            self.hardware,
         )
+
         self.controller = SystemController(
             self.sensor,
             self.actuator,
@@ -40,6 +48,7 @@ class MainWindow(QWidget):
         self.sensor_name_label = QLabel(
             f"Capteur : {self.sensor.name}"
         )
+
         self.sensor_value_label = QLabel("Value : ---")
 
         self.actuator_name_label = QLabel(
@@ -107,11 +116,13 @@ class MainWindow(QWidget):
         else:
                 self.actuator_state_label.setText(
                 "State : OFF")  
+        print(self.hardware.actuator_states)
 
     def update_system_state_label(self) -> None:
         self.system_state_label.setText(
             f"System State : {self.controller.get_state().value}"
         )
+
 
     # UPDATE SYSTEM STATE VIEW METHODS
 
