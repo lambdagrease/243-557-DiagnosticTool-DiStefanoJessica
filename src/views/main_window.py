@@ -13,6 +13,7 @@ from src.models.actuator import Actuator
 from src.controllers.system_controller import SystemController
 from src.controllers.system_controller import SystemState
 from src.hardware.simulation_hardware import SimulationHardware
+from src.views.sensor_widget import SensorWidget
 
 # MAIN WINDOW
 
@@ -103,7 +104,7 @@ class MainWindow(QWidget):
         self.sensor_value_label.setText(
             f"Value : {value} {self.sensor.unit}"
         )
-        self.controller.alarm_system()
+        self.controller.alarm_system(value)
         self.update_actuator_state_label()
         self.update_system_state_label()
 
@@ -116,7 +117,6 @@ class MainWindow(QWidget):
         else:
                 self.actuator_state_label.setText(
                 "State : OFF")  
-        print(self.hardware.actuator_states)
 
     def update_system_state_label(self) -> None:
         self.system_state_label.setText(

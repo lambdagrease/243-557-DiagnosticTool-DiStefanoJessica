@@ -10,6 +10,11 @@ class Actuator:
         self.hardware = hardware
         self.state = False
 
+        self.hardware.set_actuator(
+        self.name,
+        is_active=False
+    )
+
     def state_on(self) -> None:
         self.state = True
         self.hardware.set_actuator(
@@ -25,4 +30,7 @@ class Actuator:
         )
 
     def state_invert(self) -> None:
-        self.state = not self.state
+        if self.state:
+            self.state_off()
+        else:
+            self.state_on()

@@ -26,8 +26,8 @@ class SystemController:
         if self.state == SystemState.RUNNING:
             self.state = SystemState.STOPPED
 
-    def alarm_system(self) -> None:
-        if self.sensor.read() > 80:
+    def alarm_system(self, value: float) -> None:
+        if value > 80:
             if self.state == SystemState.RUNNING:
                 self.actuator.state_on()
                 self.state = SystemState.ALARM
