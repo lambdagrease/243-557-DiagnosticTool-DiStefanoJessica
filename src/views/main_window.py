@@ -37,7 +37,7 @@ class MainWindow(QWidget):
 
         self.title_label.setStyleSheet(
             """
-            font-size: 28px;
+            font-size: 80px;
             font-weight: bold;
             """
         )
