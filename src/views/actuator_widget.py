@@ -56,7 +56,7 @@ class ActuatorWidget(QGroupBox):
     def update_display(self) -> None:
         if self.actuator.state:
             self.state_label.setText("On")
-            self.toggle_button.setText("Off")
+            self.toggle_button.setText("Deactivate")
             self.state_label.setStyleSheet(
                 """
                 font-size: 24px;
@@ -68,7 +68,7 @@ class ActuatorWidget(QGroupBox):
 
         else:
             self.state_label.setText("Off")
-            self.toggle_button.setText("On")
+            self.toggle_button.setText("Activate")
             self.state_label.setStyleSheet(
                 """
                 font-size: 24px;

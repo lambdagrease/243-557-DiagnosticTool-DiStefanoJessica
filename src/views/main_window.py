@@ -69,11 +69,20 @@ class MainWindow(QWidget):
 
         # BOX LAYOUT
 
+        layouth = QHBoxLayout()
+        layouth.addWidget(self.actuator_widget)
+        layouth.addWidget(self.distance_widget)
+        layouth.setSpacing(20)
         # À compléter :
         # 1. Créer un QHBoxLayout.
         # 2. Ajouter les deux composants.
         # 3. Définir un espacement visible.
+        layoutv = QVBoxLayout()
+        layoutv.addWidget(self.title_label)
+        layoutv.addLayout(layouth)
+        layoutv.setContentsMargins(20, 20, 20, 20)
 
+        self.setLayout(layoutv)
         # À compléter :
         # 1. Créer un QVBoxLayout.
         # 2. Ajouter le titre.
