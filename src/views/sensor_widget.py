@@ -39,6 +39,7 @@ class SensorWidget(QGroupBox):
             """
             font-size: 24px;
             font-weight: bold;
+            padding: 10px;
             """
         )
 
