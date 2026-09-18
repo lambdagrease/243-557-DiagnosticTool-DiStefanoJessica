@@ -39,6 +39,7 @@ class MainWindow(QWidget):
             """
             font-size: 80px;
             font-weight: bold;
+            font-family: Billa Mount;
             """
         )
 
@@ -52,6 +53,12 @@ class MainWindow(QWidget):
             self.hardware,
         )
 
+        self.temperature_sensor = Sensor(
+            "Temperature",
+            "°C",
+            self.hardware,
+        )
+
         self.diagnostic_actuator = Actuator(        # LED ACTUATOR
             "Diagnostic LED",
             self.hardware,
@@ -62,9 +69,31 @@ class MainWindow(QWidget):
         self.distance_widget = SensorWidget(
             self.distance_sensor
         )
+        self.distance_widget.setStyleSheet(
+            """
+            font-family: Billa Mount;
+            font-size: 30px;
+            """
+        ) 
+
+        self.temperature_widget = SensorWidget(
+            self.temperature_sensor
+        )
+        self.temperature_widget.setStyleSheet(
+            """
+            font-family: Billa Mount;
+            font-size: 30px;
+            """
+        ) 
 
         self.actuator_widget = ActuatorWidget(
             self.diagnostic_actuator
+        )
+        self.actuator_widget.setStyleSheet(
+            """
+            font-family: Billa Mount;
+            font-size: 30px;
+            """
         )
 
         # BOX LAYOUT
@@ -72,6 +101,7 @@ class MainWindow(QWidget):
         layouth = QHBoxLayout()
         layouth.addWidget(self.actuator_widget)
         layouth.addWidget(self.distance_widget)
+        layouth.addWidget(self.temperature_widget)
         layouth.setSpacing(20)
         # À compléter :
         # 1. Créer un QHBoxLayout.

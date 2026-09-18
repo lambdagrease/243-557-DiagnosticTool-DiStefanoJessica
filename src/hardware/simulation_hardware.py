@@ -13,7 +13,7 @@ class SimulationHardware:
         if sensor_name == "Distance":
             return round(random.uniform(10.0, 100.0), 1)
 
-        if sensor_name == "Température":
+        if sensor_name == "Temperature":
             return round(random.uniform(18.0, 30.0), 1)
 
         return 0.0

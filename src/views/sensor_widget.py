@@ -37,7 +37,7 @@ class SensorWidget(QGroupBox):
 
         self.value_label.setStyleSheet(
             """
-            font-size: 24px;
+            font-size: 30px;
             font-family: Billa Mount;
             font-weight: bold;
             padding: 10px;
