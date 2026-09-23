@@ -60,6 +60,7 @@ class ActuatorWidget(QGroupBox):
             self.state_label.setStyleSheet(
                 """
                 font-size: 24px;
+                font-family: Billa Mount;
                 font-weight: bold;
                 padding: 10px;
                 color: green;
@@ -72,6 +73,7 @@ class ActuatorWidget(QGroupBox):
             self.state_label.setStyleSheet(
                 """
                 font-size: 24px;
+                font-family: Billa Mount;
                 font-weight: bold;
                 padding: 10px;
                 color: red;
