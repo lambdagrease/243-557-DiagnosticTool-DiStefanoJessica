@@ -45,25 +45,22 @@ class MqttClient(QObject):
 
     def connect_to_broker(self) -> None:
         """Établit la connexion avec le broker."""
-
-        # À compléter :
-        # 1. Appeler connect().
-        # 2. Démarrer la boucle réseau Paho.
-        pass
+        self.client.connect(
+            BROKER_IP,
+            BROKER_PORT,
+        )
+        self.client.loop_start()
 
     def disconnect_from_broker(self) -> None:
         """Ferme la connexion MQTT."""
 
-        # À compléter :
-        # 1. Déconnecter le client.
-        # 2. Arrêter la boucle réseau.
-        pass
+        self.client.disconnect()
+        self.client.loop_stop()
 
     def subscribe(self, topic: str) -> None:
         """Abonne le client à un topic."""
 
-        # À compléter.
-        pass
+        self.client.subscribe(topic)
 
     def publish(
         self,
@@ -72,8 +69,10 @@ class MqttClient(QObject):
     ) -> None:
         """Publie un message MQTT."""
 
-        # À compléter.
-        pass
+        self.client.publish(
+            topic,
+            payload,
+        )
 
     def _on_connect(
         self,

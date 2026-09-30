@@ -24,8 +24,10 @@ class SensorWidget(QGroupBox):
         self.value_label = QLabel("---")
 
         self.read_button = QPushButton(
-            "Read Sensor"
+            "Automatic Update"
         )
+
+        self.read_button.setEnabled(False)
 
         self.name_label.setAlignment(
             Qt.AlignmentFlag.AlignCenter
@@ -51,12 +53,11 @@ class SensorWidget(QGroupBox):
 
         self.setLayout(layout)
 
-        self.read_button.clicked.connect(
-            self.read_sensor
-        )
-
-    def read_sensor(self) -> None:
-        value = self.sensor.read()
+    def update_value(
+        self,
+        value: float,
+    ) -> None:
+        """Actualise la valeur affichée."""
         self.value_label.setText(
             f"{value:.1f} {self.sensor.unit}"
-        )
+    )
