@@ -1,18 +1,34 @@
-import sys
+"""Point d'entrée du service Raspberry."""
 
-from PyQt6.QtWidgets import QApplication
+import time
 
-from src.views.main_window import MainWindow
+from rpi_service.raspberry_controller import (
+    RaspberryController,
+)
+
 
 def main() -> None:
-    """Démarre l'application de diagnostic."""
-    app = QApplication(sys.argv)
+    """Exécute le service Raspberry."""
 
-    window = MainWindow()
-    window.show()
+    controller = RaspberryController()
+    controller.start()
 
-    sys.exit(app.exec())
+    print("Service Raspberry démarré.")
+
+    try:
+        while True:
+            controller.publish_measurements()
+            time.sleep(2)
+
+    except KeyboardInterrupt:
+        print(
+            "\nArrêt du service Raspberry."
+        )
+
+    finally:
+        controller.stop()
 
 
 if __name__ == "__main__":
     main()
+ # allo
